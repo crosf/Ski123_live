@@ -1,0 +1,10 @@
+<!-- templates/index.html -->
+{% extends "base.html" %}
+{% block title %}Календарь гонок{% endblock %}
+{% block content %}
+  <h1 id="title" class="text-2xl font-semibold text-center text-blue-300 mb-4">Загрузка...</h1>
+  <div id="dates"></div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/index.js"></script>
+{% endblock %}

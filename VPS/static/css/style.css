@@ -1,0 +1,6 @@
+/* static/css/style.css */
+body { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:#0f172a; color:#fff; }
+.card { background:#0b1220; border-radius:10px; padding:12px; }
+table thead th { padding:8px; text-align:center; font-weight:600; }
+table tbody td { padding:8px; text-align:center; border-top:1px solid rgba(255,255,255,0.03); }
+select { color: #fff; }
