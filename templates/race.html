@@ -1,0 +1,31 @@
+<!-- templates/race.html -->
+{% extends "base.html" %}
+{% block title %}Гонка — Live{% endblock %}
+{% block content %}
+  <div class="flex justify-between items-center mb-4">
+    <h1 id="title" class="text-2xl font-semibold text-blue-300">Загрузка...</h1>
+    <div>
+      <a href="/" class="bg-slate-600 hover:bg-slate-700 text-white px-3 py-1 rounded mr-2">←Главная</a>
+      <button id="btnRefresh" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">Обновить</button>
+    </div>
+  </div>
+
+  <div class="card mb-4 p-3">
+    <div class="flex gap-3 items-center">
+      <label class="text-sm">Категория:</label>
+      <select id="catSelect" class="bg-slate-800 p-2 rounded"></select>
+    </div>
+  </div>
+
+  <div class="card p-3 overflow-auto">
+    <table class="w-full text-sm table-auto">
+      <thead id="thead" class="text-center bg-slate-700"></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <input type="hidden" id="raceId" value="{{ race_id }}">
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/race.js"></script>
+{% endblock %}
