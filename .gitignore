@@ -1,0 +1,16 @@
+# Зависимости
+node_modules/
+package-lock.json
+
+# Логи работы сервера
+*.log
+server_out.log
+server_err.log
+
+# Служебные файлы ОС
+.DS_Store
+Thumbs.db
+
+# Временные файлы и бэкапы
+*.backup
+*.save

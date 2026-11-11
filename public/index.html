@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Трансляция соревнований</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#0b1120] text-slate-200 min-h-screen p-2 sm:p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Шапка -->
+        <header class="bg-slate-800/90 backdrop-blur p-5 md:p-6 rounded-2xl shadow-xl mb-6 border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="text-center md:text-left">
+                <h1 id="mainTitle" class="text-xl md:text-2xl font-extrabold text-white tracking-tight">Загрузка данных...</h1>
+                <p id="subTitle" class="text-slate-400 text-xs md:text-sm mt-1"></p>
+            </div>
+
+            <!-- Статус соединения -->
+            <div class="flex items-center gap-3">
+                <div id="liveStatus" class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold bg-slate-900 border border-slate-700 text-slate-400">
+                    <span class="w-2 h-2 rounded-full bg-slate-500"></span>
+                    <span>ПОДКЛЮЧЕНИЕ</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Страница 1: Выбор гонки -->
+        <main id="view-races" class="active-view">
+            <div class="bg-slate-800/60 backdrop-blur p-6 rounded-2xl shadow-xl border border-slate-700">
+                <h2 class="text-lg font-bold mb-4 text-white flex items-center gap-2">
+                    <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    Расписание гонок
+                </h2>
+                <div id="racesList" class="space-y-6">
+                    <p class="text-slate-400 animate-pulse text-sm">Подключение к серверу соревнований...</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- Страница 2: Результаты гонки -->
+        <main id="view-results">
+            <!-- Панель управления -->
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="showRacesView()" class="bg-slate-800 hover:bg-slate-700 text-white px-3.5 py-2 rounded-xl transition shadow flex items-center gap-2 text-sm font-semibold border border-slate-700">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                        Назад к гонкам
+                    </button>
+                    <h2 id="raceTitle" class="text-lg md:text-2xl font-bold text-white tracking-tight"></h2>
+                </div>
+            </div>
+
+            <!-- Фильтры -->
+            <div class="bg-slate-800/60 backdrop-blur p-4 rounded-xl shadow-lg mb-4 border border-slate-700 space-y-3">
+                <div class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4">
+                    <span class="text-slate-400 font-bold min-w-[85px] text-xs uppercase tracking-wider">Отсечка:</span>
+                    <div id="checkpointsList" class="flex flex-wrap gap-1.5"></div>
+                </div>
+                <div id="categoryRow" class="flex flex-col md:flex-row md:items-center gap-2 md:gap-4 pt-2 border-t border-slate-700/60">
+                    <span class="text-slate-400 font-bold min-w-[85px] text-xs uppercase tracking-wider">Группа:</span>
+                    <div id="categoriesList" class="flex flex-wrap gap-1.5"></div>
+                </div>
+            </div>
+
+            <!-- Таблица результатов -->
+            <div class="bg-slate-800/40 backdrop-blur rounded-2xl shadow-2xl border border-slate-700/80 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="bg-slate-900/90 text-slate-400 text-[11px] md:text-xs uppercase tracking-wider border-b border-slate-700/80">
+                            <tr>
+                                <th id="thRank" class="py-2.5 px-1 md:p-3.5 font-bold text-center w-8 md:w-16">Место</th>
+                                <th id="thBib" class="py-2.5 px-1 md:p-3.5 font-bold text-center w-8 md:w-16">№</th>
+                                <th class="py-2.5 px-2 md:p-3.5 font-bold">
+                                    <span class="md:hidden">Участник</span>
+                                    <span class="hidden md:inline">Спортсмен / Команда</span>
+                                </th>
+                                <th class="p-3.5 font-bold hidden md:table-cell">Организация / Клуб</th>
+                                <th class="p-3.5 font-bold hidden md:table-cell">Категория</th>
+                                <th id="thResult" class="py-2.5 px-2 md:p-3.5 font-bold text-right">Результат</th>
+                                <th id="thBehind" class="p-3.5 font-bold text-right hidden md:table-cell">Отставание</th>
+                                <th id="thAddInfo" class="py-2.5 px-1 md:p-3.5 font-bold text-center w-12 md:w-24">Инфо</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody" class="text-sm divide-y divide-slate-800/60">
+                            <tr id="row-empty"><td colspan="8" class="p-8 text-center text-slate-500 font-medium">Ожидание данных...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Подключение клиентских скриптов -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

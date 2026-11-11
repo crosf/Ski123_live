@@ -1,0 +1,7 @@
+{
+  "port": 3000,
+  "targetUrl": "http://10.3.226.131/Info",
+  "eventCacheTtlMs": 30000,
+  "resultsCacheTtlMs": 1500,
+  "soapTimeoutMs": 3500
+}
